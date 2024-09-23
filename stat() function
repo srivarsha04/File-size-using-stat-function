@@ -1,0 +1,45 @@
+/*C program to find the size of a file in Linux.*/
+/*C program using stat() function.*/
+
+#include <stdio.h>
+#include <sys/stat.h>
+
+/*function to get size of the file.*/
+long int findSize(const char* file_name)
+{
+    struct stat st; /*declare stat variable*/
+
+    /*get the size using stat()*/
+
+    if (stat(file_name, &st) == 0)
+        return (st.st_size);
+    else
+        return -1;
+}
+
+int main()
+{
+    char i;
+    FILE* fp; /*to create file*/
+    long int size = 0;
+
+    /*Open file in write mode*/
+    fp = fopen("temp.txt", "w");
+
+    /*writing A to Z characters into file*/
+    for (i = 'A'; i <= 'Z'; i++)
+        fputc(i, fp);
+
+    /*close the file*/
+    fclose(fp);
+
+    /*call function to get size*/
+    size = findSize("temp.txt");
+
+    if (size != -1)
+        printf("File size is: %ld\n", size);
+    else
+        printf("There is some ERROR.\n");
+
+    return 0;
+}
